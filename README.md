@@ -66,5 +66,5 @@ El proyecto utiliza una arquitectura desacoplada (Frontend & Backend independien
 
 ### 1. Clonar el Repositorio
 ```bash
-git clone [https://github.com/tu-usuario/FigureVerse.git](https://github.com/tu-usuario/FigureVerse.git)
+git clone https://github.com/KennySor/Figure-Verse.git
 cd FigureVerse
