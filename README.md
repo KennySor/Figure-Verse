@@ -2,7 +2,7 @@
 
 > **Plataforma E-commerce de Comercio Electrónico Especializada en la Venta de Figuras de Acción y Anime.**
 
-![Angular](https://img.shields.io/badge/Angular-v17-DD0031?style=for-the-badge&logo=angular)
+![Angular](https://img.shields.io/badge/Angular-v20-DD0031?style=for-the-badge&logo=angular)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-v3.2-6DB33F?style=for-the-badge&logo=springboot)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v15-336791?style=for-the-badge&logo=postgresql)
 ![Render](https://img.shields.io/badge/Render-Hosted-black?style=for-the-badge&logo=render)
@@ -28,7 +28,7 @@ El sistema ofrece una experiencia de compra fluida tanto para clientes como para
 El proyecto utiliza una arquitectura desacoplada (Frontend & Backend independientes) desplegada en **servicios en la nube 100% gratuitos (Free Tier)**:
 
 ### 💻 Frontend
-* **Framework:** Angular 17 (Componentes Standalone & Signals)
+* **Framework:** Angular 20 (Componentes Standalone & Signals)
 * **Estilos:** Tailwind CSS + Angular Material
 * **Gestión de Estado:** RxJS
 * **Hosting:** Vercel / Netlify (Free Tier)
@@ -67,4 +67,20 @@ El proyecto utiliza una arquitectura desacoplada (Frontend & Backend independien
 ### 1. Clonar el Repositorio
 ```bash
 git clone https://github.com/KennySor/Figure-Verse.git
-cd FigureVerse
+cd Figure-Verse
+```
+
+### 2. Frontend (Angular)
+```bash
+cd fixsrc/frontend
+npm install
+npm start
+```
+Abre `http://localhost:4200`.
+
+### 3. Backend (Spring Boot)
+Configura PostgreSQL en `fixsrc/backend/src/main/resources/application.properties` y ejecuta:
+```bash
+cd fixsrc/backend
+mvn spring-boot:run
+```
