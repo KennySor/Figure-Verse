@@ -1,1 +1,345 @@
-<p>home works!</p>
+<section class="hero">
+  <div class="hero-slide" [class.active]="slideIndex === 0" data-accent="cyan" style="background-image:url('assets/img/pain.png')">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="hero-label"><i></i> PIEZA DESTACADA · DROP 01</div>
+        <h1>Naruto Pain<span>Premium 1/4</span></h1>
+        <p>Una pieza diseñada para dominar tu vitrina. Escultura de alta fidelidad, acabado premium y presencia de colección. Descubre el lado oscuro de Figureverse.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="#tienda">Ver colección</a><a class="btn btn-secondary" href="#ofertas">Ver ofertas</a></div>
+      </div>
+      <div class="hero-spec">
+        <div class="top"><span class="tag">Disponible ahora</span><span class="code">FV-001</span></div>
+        <div class="spec-row"><div class="spec"><small>Escala</small><strong>1:4</strong></div><div class="spec"><small>Rating</small><strong>4.9 / 5</strong></div><div class="spec"><small>Edición</small><strong>Limitada</strong></div><div class="spec"><small>Stock</small><strong>12 piezas</strong></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-slide" [class.active]="slideIndex === 1" style="background-image:url('assets/img/accion..png')">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="hero-label"><i style="background:var(--pink);box-shadow:0 0 12px var(--pink)"></i> GAMING DROP · EDICIÓN ESPECIAL</div>
+        <h1>Cyberpunk <span>Night City</span></h1>
+        <p>Figuras y dioramas inspirados en el gaming que convierten cualquier setup en una pieza de exhibición.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="#tienda">Explorar gaming</a><a class="btn btn-secondary" href="#universos">Explorar universos</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-slide" [class.active]="slideIndex === 2" style="background-image:url('assets/img/monstruos.png')">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="hero-label"><i style="background:var(--violet);box-shadow:0 0 12px var(--violet)"></i> ANIME · PREVENTA ABIERTA</div>
+        <h1>Beast of Cine<span>Beyond Limits</span></h1>
+        <p>Elige tu próxima pieza de anime entre figuras articuladas, estatuas y ediciones que llegan directo al corazón del fandom.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="#preventas">Reservar ahora</a><a class="btn btn-secondary" href="#tienda">Ver figuras</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-slide" [class.active]="slideIndex === 3" style="background-image:url('assets/img/roman.png')">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="hero-label"><i style="background:var(--gold);box-shadow:0 0 12px var(--gold)"></i> MARVEL · RESTOCK LIMITADO</div>
+        <h1>Infinity <span>Collection</span></h1>
+        <p>Grandes personajes, grandes escalas. Selección de Marvel para coleccionistas que buscan piezas con presencia.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="#tienda">Comprar ahora</a><a class="btn btn-secondary" href="#exclusivos">Piezas exclusivas</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-controls">
+    <button class="hero-arrow" id="heroPrev" (click)="prevSlide()" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></svg></button>
+    <button class="hero-arrow" id="heroNext" (click)="nextSlide()" aria-label="Siguiente"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button>
+    <span class="hero-counter"><span id="slideCurrent">{{ slideCounter }}</span> / 04</span>
+    <div class="hero-dots" id="heroDots">
+      <button [class.active]="slideIndex === 0" (click)="goToSlide(0)" aria-label="Slide 1"></button>
+      <button [class.active]="slideIndex === 1" (click)="goToSlide(1)" aria-label="Slide 2"></button>
+      <button [class.active]="slideIndex === 2" (click)="goToSlide(2)" aria-label="Slide 3"></button>
+      <button [class.active]="slideIndex === 3" (click)="goToSlide(3)" aria-label="Slide 4"></button>
+    </div>
+  </div>
+  <div class="hero-progress">
+    <span id="heroBar" [style.width]="progressWidth" [style.transition]="progressWidth === '0%' ? 'none' : 'width ' + HERO_MS + 'ms linear'"></span>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <div class="ticker-item"><b>FIGUREVERSE</b><i></i> Collectors only</div><div class="ticker-item">⚡ Nuevos drops cada semana</div><div class="ticker-item">◇ Figuras 1/6 · 1/4 · 1/7</div><div class="ticker-item">✓ Autenticidad garantizada</div><div class="ticker-item">🚚 Envíos blindados</div>
+    <div class="ticker-item"><b>FIGUREVERSE</b><i></i> Collectors only</div><div class="ticker-item">⚡ Nuevos drops cada semana</div><div class="ticker-item">◇ Figuras 1/6 · 1/4 · 1/7</div><div class="ticker-item">✓ Autenticidad garantizada</div><div class="ticker-item">🚚 Envíos blindados</div>
+  </div>
+</div>
+
+<section class="promo">
+  <div class="promo-visual">
+    <img id="promoImg1" [src]="currentPromo.a" alt="Figura coleccionable">
+    <img id="promoImg2" [src]="currentPromo.b" alt="Estatua premium">
+  </div>
+  <div class="promo-copy">
+    <small id="promoKicker">{{ currentPromo.k }}</small>
+    <h2 id="promoTitle" [innerHTML]="currentPromo.t"></h2>
+    <p id="promoText">{{ currentPromo.p }}</p>
+  </div>
+  <div class="promo-nav">
+    <button id="promoPrev" (click)="prevPromo()" aria-label="Promo anterior">‹</button>
+    <button id="promoNext" (click)="nextPromo()" aria-label="Promo siguiente">›</button>
+  </div>
+  <div class="promo-dots">
+    <button [class.active]="promoIndex === 0" (click)="goToPromo(0)" aria-label="Promo 1"></button>
+    <button [class.active]="promoIndex === 1" (click)="goToPromo(1)" aria-label="Promo 2"></button>
+    <button [class.active]="promoIndex === 2" (click)="goToPromo(2)" aria-label="Promo 3"></button>
+  </div>
+</section>
+
+<section class="brand-rail" aria-label="Marcas destacadas">
+  <div class="container brand-rail-inner">
+    <span class="brand-rail-label">MARCA TU COLECCIÓN</span>
+    <div class="brand-wordmark hottoys">HOT TOYS</div>
+    <div class="brand-wordmark sideshow">SIDESHOW</div>
+    <div class="brand-wordmark prime">PRIME 1 STUDIO</div>
+    <div class="brand-wordmark inart">INART</div>
+    <div class="brand-wordmark shf">S.H.FIGUARTS</div>
+    <div class="brand-wordmark threezero">THREEZERO</div>
+  </div>
+</section>
+
+<section class="section universes-wrap" id="universos">
+  <div class="container">
+    <div class="section-head">
+      <div><span class="kicker">Explora tu fandom</span><h2>Universos que viven en tu vitrina</h2><p>Un carrusel visual para entrar directo al mundo que quieres coleccionar.</p></div>
+      <div class="right carousel-controls">
+        <button class="carousel-btn" id="uniPrev" (click)="scrollUniverses('prev')" aria-label="Anterior universo">‹</button>
+        <button class="carousel-btn" id="uniNext" (click)="scrollUniverses('next')" aria-label="Siguiente universo">›</button>
+      </div>
+    </div>
+
+    <div class="carousel-shell">
+      <div class="carousel-row" id="universeRow" #universeRow (scroll)="onUniScroll()">
+        <a class="universe-card" style="--accent:var(--cyan)" href="#tienda"><img src="assets/img/star.jpg" alt="Star Wars"><div class="universe-info"><small>Space opera</small><h3>Star Wars</h3><span>142 piezas</span></div></a>
+        <a class="universe-card" style="--accent:var(--pink)" href="#tienda"><img src="assets/img/marvel.jpg" alt="Marvel"><div class="universe-info"><small>Superhéroes</small><h3>Marvel</h3><span>98 piezas</span></div></a>
+        <a class="universe-card" style="--accent:var(--gold)" href="#tienda"><img src="assets/img/terminator.webp" alt="Sci-Fi"><div class="universe-info"><small>Sci-fi</small><h3>Terminator</h3><span>54 piezas</span></div></a>
+        <a class="universe-card" style="--accent:var(--violet)" href="#tienda"><img src="assets/img/dragon.jpg" alt="Anime"><div class="universe-info"><small>Anime shonen</small><h3>Dragon Ball</h3><span>120 piezas</span></div></a>
+        <a class="universe-card" style="--accent:var(--cyan)" href="#tienda"><img src="assets/img/dc.jpg" alt="DC Comics"><div class="universe-info"><small>Superhéroes</small><h3>DC Comics</h3><span>87 piezas</span></div></a>
+        <a class="universe-card" style="--accent:var(--pink)" href="#tienda"><img src="assets/img/alien.jpg" alt="Alien"><div class="universe-info"><small>Culto sci-fi</small><h3>Alien</h3><span>41 piezas</span></div></a>
+        <a class="universe-card" style="--accent:var(--lime)" href="#tienda"><img src="assets/img/hero.jpg" alt="Gaming"><div class="universe-info"><small>Gaming Legends</small><h3>Gaming Legends</h3><span>110 piezas</span></div></a>
+      </div>
+
+      <div class="scroll-track">
+        <div class="scroll-thumb" id="uniThumb" #uniThumb [style.width]="thumbWidth" [style.transform]="thumbTransform"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section arrivals container">
+  <div class="section-head">
+    <div><span class="kicker">Acaban de llegar</span><h2>Recién agregados</h2><p>El escaparate rápido de los nuevos ingresos a Figureverse.</p></div>
+    <a href="#tienda" class="btn btn-secondary">Ver catálogo</a>
+  </div>
+  <div class="arrival-row">
+    <a class="arrival" href="#tienda"><div class="arrival-frame"><span class="new-badge">Nuevo</span><img src="assets/img/t-800.jpg" alt="Terminator T-800"></div><h4>Terminator T-800 Endoskeleton</h4><strong>$189</strong></a>
+    <a class="arrival" href="#tienda"><div class="arrival-frame"><span class="new-badge">Nuevo</span><img src="assets/img/robo.jpg" alt="RoboCop"></div><h4>RoboCop Alpha Commando</h4><strong>$205</strong></a>
+    <a class="arrival" href="#tienda"><div class="arrival-frame"><span class="new-badge">Nuevo</span><img src="assets/img/vegeta.jpg" alt="Vegeta"></div><h4>Vegeta Super Saiyan Blue</h4><strong>$132</strong></a>
+    <a class="arrival" href="#tienda"><div class="arrival-frame"><span class="new-badge">Nuevo</span><img src="assets/img/baruto.jpg" alt="Naruto"></div><h4>Naruto Sage Mode Deluxe</h4><strong>$118</strong></a>
+    <a class="arrival" href="#tienda"><div class="arrival-frame"><span class="new-badge">Nuevo</span><img src="assets/img/levi.webp" alt="Levi"></div><h4>Attack on Titan — Levi 1/6</h4><strong>$260</strong></a>
+    <a class="arrival" href="#tienda"><div class="arrival-frame"><span class="new-badge">Nuevo</span><img src="assets/img/matrix.webp" alt="Neo Matrix"></div><h4>Neo — Matrix Anniversary</h4><strong>$225</strong></a>
+  </div>
+</section>
+
+<section class="collector-picks section">
+  <div class="container">
+    <div class="section-head"><div><span class="kicker">Compra por intención</span><h2>Encuentra tu próxima obsesión</h2><p>Bloques visuales para descubrir piezas según el tipo de colección que quieres construir.</p></div></div>
+    <div class="pick-grid">
+      <a class="pick-card pick-gift" style="--pick-bg: url('assets/img/simpsons.jpg')" href="#tienda" data-filter-link="all"><div class="pick-overlay"></div><div class="pick-copy"><span>REGALOS PARA FANS</span><h3>Una figura que<br>sí quieres recibir.</h3><b>Explorar selección <i>→</i></b></div></a>
+      <a class="pick-card pick-display" style="--pick-bg: url('assets/img/futurama.png')" href="#exclusivos"><div class="pick-overlay"></div><div class="pick-copy"><span>VITRINA · PREMIUM</span><h3>Piezas que<br>piden spotlight.</h3><b>Ver escalas grandes <i>→</i></b></div></a>
+      <a class="pick-card pick-budget" style="--pick-bg: url('assets/img/peter.jpeg')" href="#ofertas"><div class="pick-overlay"></div><div class="pick-copy"><span>HASTA 30% OFF</span><h3>Tu próxima pieza<br>por menos.</h3><b>Ver ofertas <i>→</i></b></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="collector-banner">
+  <div class="collector-banner-glow"></div>
+  <div class="container collector-banner-inner">
+    <div class="collector-banner-copy"><span class="mini-label">COLLECTOR WEEK · 07—13 SEPT</span><h2>¡SUBE DE NIVEL! <strong>30%</strong></h2><p>Descuento en una selección de figuras, estatuas y model kits. <b>+10% extra</b> usando el código <strong>VERSE10</strong>.</p><a href="#tienda" class="btn btn-primary">Aprovechar ahora</a></div>
+    <div class="collector-banner-art"><div class="art-ring ring-one"></div><div class="art-ring ring-two"></div><div class="art-card">LIMITED<br><strong>DROP</strong><small>FIGUREVERSE</small></div></div>
+    <div class="collector-banner-stamp"><strong>-30%</strong><span>SELECTED<br>FIGURES</span></div>
+  </div>
+</section>
+
+<section class="section offers-section" id="ofertas">
+  <div class="container">
+    <div class="section-head">
+      <div><span class="kicker" style="color:var(--pink)">Ofertas de la semana</span><h2>Deals para subir de nivel</h2><p>Promos con estética de evento: más impacto, menos sensación de plantilla.</p></div>
+      <a href="#tienda" class="btn btn-secondary">Todas las ofertas</a>
+    </div>
+    <div class="offer-grid">
+      <article class="offer-card main" style="--accent:var(--pink)"><img src="assets/img/come_little_one_luke_skywalker_png_by_crossoverking16_dfk6yo5.png" alt="Colección Sith"><div class="offer-copy"><span class="badge">-25%</span><small>Star Wars</small><h3>Colección Sith completa</h3><p>Selección oscura para una vitrina con presencia.</p><a class="offer-link" href="#tienda" data-filter-link="sale">Ver oferta <span>→</span></a></div></article>
+      <article class="offer-card" style="--accent:var(--cyan)"><img src="assets/img/kamen_rider_buffa_plosion_rage__by_kamenriderfan09_dgbkgmn.png" alt="Metal Build"><div class="offer-copy"><span class="badge">-15%</span><small>Anime</small><h3>Metal Build</h3><p>Modelos seleccionados.</p><a class="offer-link" href="#tienda">Explorar <span>→</span></a></div></article>
+      <article class="offer-card" style="--accent:var(--violet)"><img src="assets/img/the rock.png" alt="Gaming"><div class="offer-copy"><span class="badge">-30%</span><small>Gaming</small><h3>Últimas unidades</h3><p>Stock de bodega.</p><a class="offer-link" href="#tienda">Aprovechar <span>→</span></a></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="flash">
+  <div class="flash-copy">
+    <div class="flash-icon"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-13h-7l0-7Z"/></svg></div>
+    <div><h3>Flash sale · 25% OFF</h3><p>En estatuas seleccionadas. El contador es visual y se reinicia cada día.</p></div>
+  </div>
+  <div class="timer">
+    <div class="time"><strong id="hours">{{ hours }}</strong><span>Horas</span></div>
+    <div class="time"><strong id="minutes">{{ minutes }}</strong><span>Min</span></div>
+    <div class="time"><strong id="seconds">{{ seconds }}</strong><span>Seg</span></div>
+  </div>
+</section>
+
+<section class="preorders" id="preventas">
+  <div class="container pre-inner">
+    <div class="pre-copy"><span class="kicker">Reserva antes del lanzamiento</span><h2>Nuevos <span>personajes</span></h2><p>Asegura las piezas más buscadas antes de que aterricen en bodega. Una sección más editorial para destacar próximos lanzamientos.</p><a class="btn btn-primary" href="#tienda" data-tab="preorder">Ver preventas</a></div>
+    <div class="pre-visual">
+      <figure><img src="assets/img/freddy.png" alt="Obi-Wan"><figcaption>Freddy · 1/6</figcaption></figure>
+      <figure><img src="assets/img/ghost.png" alt="Darth Vader"><figcaption>Ghost · 1/4</figcaption></figure>
+      <figure><img src="assets/img/machete.png" alt="Beast Warrior"><figcaption>Jason · 1/8</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="trust">
+  <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24"><path d="M12 2 20 6v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6l8-4Z"/></svg></div><div><h4>Envío blindado</h4><p>Protección pensada para coleccionistas.</p></div></div>
+  <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></svg></div><div><h4>Originalidad verificada</h4><p>Compra con mayor tranquilidad.</p></div></div>
+  <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 11-13h-7Z"/></svg></div><div><h4>Preventa garantizada</h4><p>Reserva tu pieza desde el lanzamiento.</p></div></div>
+  <div class="trust-item"><div class="trust-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></div><div><h4>Pago seguro</h4><p>Checkout claro y protegido.</p></div></div>
+</section>
+
+<section class="section shop container" id="tienda">
+  <div class="section-head">
+    <div><span class="kicker">Catálogo Figureverse</span><h2>Elige tu próxima pieza</h2><p>Descubre piezas premium con stock, escala, rating y precio claramente visibles desde el primer vistazo.</p></div>
+  </div>
+  <div class="shop-bar">
+    <div class="tabs" id="shopTabs">
+      <button class="tab active" data-filter="all">Más vendidos</button>
+      <button class="tab" data-filter="preorder">Preventas</button>
+      <button class="tab" data-filter="sale">Ofertas</button>
+      <button class="tab" data-filter="anime">Anime</button>
+      <button class="tab" data-filter="gaming">Gaming</button>
+      <button class="tab" data-filter="superheroes">Superhéroes</button>
+    </div>
+    <div class="filter"><select id="sortProducts" aria-label="Ordenar productos"><option value="featured">Ordenar: destacados</option><option value="low">Precio menor</option><option value="high">Precio mayor</option></select></div>
+  </div>
+
+  <div class="products" id="products">
+    <article class="product" data-category="anime sale" data-price="280">
+      <div class="product-media"><span class="badge sale">-20%</span><button class="wish" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5-8.8 10.3-8.8 10.3S3.2 13.8 3.2 8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button><img src="assets/img/image.png" alt="Unit 01 Metal Build"><button class="quick">Vista rápida</button></div>
+      <div class="product-body"><span class="product-universe">Neon Genesis Evangelion</span><h3 class="product-title">Unit 01 Metal Build Edition</h3><div class="rating"><span class="stars">★★★★★</span><span>4.9 · 128</span></div><div class="product-bottom"><span class="price">$280</span><button class="add" aria-label="Agregar Unit 01"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+    </article>
+
+    <article class="product" data-category="preorder superheroes" data-price="145">
+      <div class="product-media"><span class="badge pre">Preventa</span><button class="wish" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5-8.8 10.3-8.8 10.3S3.2 13.8 3.2 8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button><img src="assets/img/image copy.png" alt="Casco Boba Fett"><button class="quick">Vista rápida</button></div>
+      <div class="product-body"><span class="product-universe">Star Wars</span><h3 class="product-title">Casco Electrónico Boba Fett</h3><div class="rating"><span class="stars">★★★★★</span><span>5.0 · 64</span></div><div class="product-bottom"><span class="price">$145</span><button class="add" aria-label="Agregar Boba Fett"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+    </article>
+
+    <article class="product" data-category="superheroes" data-price="210">
+      <div class="product-media"><span class="badge hot">Top rated</span><button class="wish" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5-8.8 10.3-8.8 10.3S3.2 13.8 3.2 8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button><img src="assets/img/image copy 2.png" alt="Shredder Deluxe"><button class="quick">Vista rápida</button></div>
+      <div class="product-body"><span class="product-universe">TMNT</span><h3 class="product-title">Shredder Deluxe Edition 1/6</h3><div class="rating"><span class="stars">★★★★★</span><span>4.8 · 91</span></div><div class="product-bottom"><span class="price">$210</span><button class="add" aria-label="Agregar Shredder"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+    </article>
+
+    <article class="product" data-category="gaming sale" data-price="95">
+      <div class="product-media"><span class="badge sale">-21%</span><button class="wish" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5-8.8 10.3-8.8 10.3S3.2 13.8 3.2 8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button><img src="assets/img/image copy 3.png" alt="Porsche 911"><button class="quick">Vista rápida</button></div>
+      <div class="product-body"><span class="product-universe">Gaming Legends</span><h3 class="product-title">Porsche 911 GT3 RS 1:18</h3><div class="rating"><span class="stars">★★★★★</span><span>4.7 · 53</span></div><div class="product-bottom"><span class="price">$95 <small class="old">$120</small></span><button class="add" aria-label="Agregar Porsche"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+    </article>
+
+    <article class="product" data-category="superheroes sale" data-price="320">
+      <div class="product-media"><span class="badge sale">-18%</span><button class="wish" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5-8.8 10.3-8.8 10.3S3.2 13.8 3.2 8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button><img src="assets/img/image copy 4.png" alt="Batman Arkham Knight"><button class="quick">Vista rápida</button></div>
+      <div class="product-body"><span class="product-universe">DC Comics</span><h3 class="product-title">Batman Arkham Knight 1/4 Scale</h3><div class="rating"><span class="stars">★★★★★</span><span>4.9 · 76</span></div><div class="product-bottom"><span class="price">$320</span><button class="add" aria-label="Agregar Batman"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+    </article>
+
+    <article class="product" data-category="preorder anime" data-price="165">
+      <div class="product-media"><span class="badge pre">Preventa</span><button class="wish" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5-8.8 10.3-8.8 10.3S3.2 13.8 3.2 8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button><img src="assets/img/image copy 5.png" alt="Tanjiro"><button class="quick">Vista rápida</button></div>
+      <div class="product-body"><span class="product-universe">Demon Slayer</span><h3 class="product-title">Tanjiro Kamado Water Breathing</h3><div class="rating"><span class="stars">★★★★★</span><span>5.0 · 39</span></div><div class="product-bottom"><span class="price">$165</span><button class="add" aria-label="Agregar Tanjiro"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+    </article>
+
+    <article class="product" data-category="new superheroes" data-price="610">
+      <div class="product-media"><span class="badge new">Nuevo</span><button class="wish" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5-8.8 10.3-8.8 10.3S3.2 13.8 3.2 8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button><img src="assets/img/image copy 6.png" alt="Wonder Woman Prime 1 Studio"><button class="quick">Vista rápida</button></div>
+      <div class="product-body"><span class="product-universe">DC Comics</span><h3 class="product-title">Wonder Woman Prime 1 Studio 1/4</h3><div class="rating"><span class="stars">★★★★★</span><span>4.9 · 22</span></div><div class="product-bottom"><span class="price">$610</span><button class="add" aria-label="Agregar Wonder Woman"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+    </article>
+
+    <article class="product" data-category="preorder" data-price="255">
+      <div class="product-media"><span class="badge pre">Preventa</span><button class="wish" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5-8.8 10.3-8.8 10.3S3.2 13.8 3.2 8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button><img src="assets/img/image copy 7.png" alt="Obi-Wan Kenobi"><button class="quick">Vista rápida</button></div>
+      <div class="product-body"><span class="product-universe">Star Wars</span><h3 class="product-title">Obi-Wan Kenobi Hot Toys 1/6</h3><div class="rating"><span class="stars">★★★★★</span><span>4.8 · 31</span></div><div class="product-bottom"><span class="price">$255</span><button class="add" aria-label="Agregar Obi-Wan"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+    </article>
+
+    <article class="product" data-category="superheroes sale" data-price="320">
+      <div class="product-media"><span class="badge sale">-18%</span><button class="wish" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5-8.8 10.3-8.8 10.3S3.2 13.8 3.2 8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button><img src="assets/img/image copy 11.png" alt="Batman Arkham Knight"><button class="quick">Vista rápida</button></div>
+      <div class="product-body"><span class="product-universe">DC Comics</span><h3 class="product-title">Batman Arkham Knight 1/4 Scale</h3><div class="rating"><span class="stars">★★★★★</span><span>4.9 · 76</span></div><div class="product-bottom"><span class="price">$320</span><button class="add" aria-label="Agregar Batman"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+    </article>
+
+    <article class="product" data-category="preorder anime" data-price="165">
+      <div class="product-media"><span class="badge pre">Preventa</span><button class="wish" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5-8.8 10.3-8.8 10.3S3.2 13.8 3.2 8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button><img src="assets/img/image copy 10.png" alt="Tanjiro"><button class="quick">Vista rápida</button></div>
+      <div class="product-body"><span class="product-universe">Demon Slayer</span><h3 class="product-title">Tanjiro Kamado Water Breathing</h3><div class="rating"><span class="stars">★★★★★</span><span>5.0 · 39</span></div><div class="product-bottom"><span class="price">$165</span><button class="add" aria-label="Agregar Tanjiro"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+    </article>
+
+    <article class="product" data-category="new superheroes" data-price="610">
+      <div class="product-media"><span class="badge new">Nuevo</span><button class="wish" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5-8.8 10.3-8.8 10.3S3.2 13.8 3.2 8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button><img src="assets/img/image copy 9.png" alt="Wonder Woman Prime 1 Studio"><button class="quick">Vista rápida</button></div>
+      <div class="product-body"><span class="product-universe">DC Comics</span><h3 class="product-title">Wonder Woman Prime 1 Studio 1/4</h3><div class="rating"><span class="stars">★★★★★</span><span>4.9 · 22</span></div><div class="product-bottom"><span class="price">$610</span><button class="add" aria-label="Agregar Wonder Woman"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+    </article>
+
+    <article class="product" data-category="preorder" data-price="255">
+      <div class="product-media"><span class="badge pre">Preventa</span><button class="wish" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.8 8.8c0 5-8.8 10.3-8.8 10.3S3.2 13.8 3.2 8.8A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button><img src="assets/img/image copy 8.png" alt="Obi-Wan Kenobi"><button class="quick">Vista rápida</button></div>
+      <div class="product-body"><span class="product-universe">Star Wars</span><h3 class="product-title">Obi-Wan Kenobi Hot Toys 1/6</h3><div class="rating"><span class="stars">★★★★★</span><span>4.8 · 31</span></div><div class="product-bottom"><span class="price">$255</span><button class="add" aria-label="Agregar Obi-Wan"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+    </article>
+  </div>
+  <div class="empty" id="emptyProducts">No encontramos figuras que coincidan con tu búsqueda.</div>
+</section>
+
+<section class="preorders-paper section" id="preventas-paper">
+  <div class="container">
+    <div class="paper-banner">
+      <img src="assets/img/nuevas-preventas-papel.png" alt="Nuevas preventas: Obi-Wan Kenobi, Deadpool y Beast Warrior">
+      <div class="paper-banner-overlay">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="collector-guide section">
+  <div class="container">
+    <div class="section-head"><div><span class="kicker">Para coleccionistas</span><h2>Más que comprar una figura</h2><p>Contenido útil para elegir escala, cuidar tus piezas y convertir tu espacio en una verdadera vitrina.</p></div><a href="#newsletter" class="btn btn-secondary">Ver guía</a></div>
+    <div class="guide-grid">
+      <article class="guide-card"><span class="guide-num">01</span><div><small>GUÍA RÁPIDA</small><h3>¿1/6, 1/4 o 1/7?</h3><p>Entiende qué escala encaja mejor con tu espacio y el nivel de presencia que buscas.</p><a href="#newsletter">Leer guía →</a></div></article>
+      <article class="guide-card"><span class="guide-num">02</span><div><small>DISPLAY</small><h3>Arma una vitrina con personalidad</h3><p>Alturas, iluminación y composición para que tus piezas no parezcan simplemente acomodadas.</p><a href="#newsletter">Ver consejos →</a></div></article>
+      <article class="guide-card"><span class="guide-num">03</span><div><small>COLECCIONISMO</small><h3>Cómo detectar una pieza premium</h3><p>Materiales, pintura, articulaciones, base y acabado: los detalles que cambian el resultado.</p><a href="#newsletter">Descubrir más →</a></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="collector-video section" id="video">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="kicker">Dentro del universo</span>
+        <h2>El coleccionismo cobra vida</h2>
+        <p>Unboxing, reseñas y detrás de cámaras de tus figuras favoritas.</p>
+      </div>
+    </div>
+    <div class="video-shell">
+      <div class="video-glow"></div>
+      <video class="figureverse-video" controls preload="metadata">
+        <source src="assets/video/figureverse-unboxing.mp4" type="video/mp4">
+        Tu navegador no puede reproducir este video.
+      </video>
+    </div>
+  </div>
+</section>
+
+<section class="community container" id="comunidad">
+  <div class="section-head"><div><span class="kicker">La comunidad</span><h2>Quienes coleccionan, hablan</h2><p>Una capa social que ayuda a que la tienda se sienta viva y no como un simple catálogo.</p></div><a href="#newsletter" class="btn btn-secondary">Unirme al club</a></div>
+  <div class="reviews">
+    <article class="review"><div class="review-top"><div class="avatar">AR</div><div><div class="review-name">Alexander R.</div><div class="verified">✓ Compra verificada</div></div></div><div class="review-stars">★★★★★</div><p>“La figura llegó impecable. El empaque de protección es de otro nivel; se nota que entienden cómo piensa un coleccionista.”</p></article>
+    <article class="review"><div class="review-top"><div class="avatar" style="background:linear-gradient(135deg,var(--violet),var(--pink))">MS</div><div><div class="review-name">Mateo S.</div><div class="verified">✓ Compra verificada</div></div></div><div class="review-stars">★★★★★</div><p>“La preventa estuvo muy bien comunicada. Saber el estado del pedido en cada etapa hizo toda la diferencia.”</p></article>
+    <article class="review"><div class="review-top"><div class="avatar" style="background:linear-gradient(135deg,var(--lime),var(--cyan))">LV</div><div><div class="review-name">Lucía V.</div><div class="verified">✓ Compra verificada</div></div></div><div class="review-stars">★★★★★</div><p>“El nivel de detalle de la estatua supera lo que se ve en las fotos. Definitivamente se siente como una pieza de vitrina.”</p></article>
+  </div>
+</section>
+
+<section class="newsletter" id="newsletter">
+  <span class="kicker">Figureverse club</span><h2>Entérate antes que todos</h2><p>Acceso anticipado a drops, preventas, restocks y ofertas de edición limitada.</p>
+  <form class="newsletter-form" onsubmit="return false"><input type="email" id="newsletterEmail" name="emailInput" placeholder="Tu correo de coleccionista" autocomplete="email" required><button type="submit">UNIRME</button></form>
+</section>
