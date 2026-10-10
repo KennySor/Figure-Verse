@@ -53,6 +53,12 @@
             </button>
           </div>
 
+                    @if (needLogin) {
+            <p class="pd-login-alert" role="alert">
+              Inicia sesión para agregar productos al carrito.
+              <a href="/login">Iniciar sesión</a>
+            </p>
+          }
           <a class="btn btn-secondary pd-back" href="/productos">← Volver a productos</a>
         </div>
       </div>

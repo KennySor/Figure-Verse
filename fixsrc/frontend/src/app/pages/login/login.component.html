@@ -1,0 +1,48 @@
+<div class="lg">
+  <div class="container">
+    <div class="lg-card">
+      @if (auth.user(); as user) {
+        <span class="lg-eyebrow">Sesión iniciada</span>
+        <h1 class="lg-title">Hola, {{ user.nombre }}</h1>
+        <p class="lg-text">Ya puedes agregar figuras a tu carrito con la cuenta {{ user.email }}.</p>
+        <div class="lg-links">
+          <a class="btn btn-primary" href="/productos">Ver figuras</a>
+          <button type="button" class="btn btn-secondary" (click)="logout()">Cerrar sesión</button>
+        </div>
+      } @else {
+        <span class="lg-eyebrow">Mi cuenta</span>
+        <h1 class="lg-title">{{ mode === 'login' ? 'Iniciar sesión' : 'Crear cuenta' }}</h1>
+
+        <div class="lg-tabs">
+          <button type="button" [class.active]="mode === 'login'" (click)="setMode('login')">Ingresar</button>
+          <button type="button" [class.active]="mode === 'register'" (click)="setMode('register')">Registrarme</button>
+        </div>
+
+        <form class="lg-form" (submit)="submit($event)" novalidate>
+          @if (mode === 'register') {
+            <label>
+              <span>Nombre</span>
+              <input type="text" name="nombre" autocomplete="name" [value]="nombre" (input)="onInput('nombre', $event)" />
+            </label>
+          }
+          <label>
+            <span>Correo</span>
+            <input type="email" name="email" autocomplete="email" [value]="email" (input)="onInput('email', $event)" />
+          </label>
+          <label>
+            <span>Contraseña</span>
+            <input type="password" name="password" autocomplete="current-password" [value]="password" (input)="onInput('password', $event)" />
+          </label>
+
+          @if (error) {
+            <p class="lg-error" role="alert">{{ error }}</p>
+          }
+
+          <button type="submit" class="btn btn-primary lg-submit" [disabled]="loading">
+            {{ loading ? 'Enviando...' : mode === 'login' ? 'Iniciar sesión' : 'Crear cuenta' }}
+          </button>
+        </form>
+      }
+    </div>
+  </div>
+</div>
