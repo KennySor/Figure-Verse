@@ -1,0 +1,21 @@
+:host { display: block; }
+
+.info {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  font-size: .68rem;
+  line-height: 1.5;
+  color: #aab2c8;
+}
+
+.info li { margin-bottom: 4px; }
+.info strong { color: #fff; }
+
+.wish.activo { color: var(--pink); border-color: rgba(255, 63, 159, .5); }
+.wish.activo svg { fill: currentColor; }
+
+/* En celular no existe hover: el botón "Ver info" siempre visible */
+@media (hover: none) {
+  .quick { opacity: 1; transform: none; }
+}

@@ -1,0 +1,54 @@
+<article class="product">
+  <div class="product-media">
+    @if (product.badge === 'sale') {
+      <span class="badge sale">-{{ descuento }}%</span>
+    }
+    @if (product.badge === 'preorder') {
+      <span class="badge pre">Preventa</span>
+    }
+    @if (product.badge === 'new') {
+      <span class="badge new">Nuevo</span>
+    }
+
+    <button type="button" class="wish" [class.activo]="favorito" (click)="toggleFavorito()" aria-label="Favorito">
+      <svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+    </button>
+
+    <img [src]="product.image" [alt]="product.name" />
+
+    <button type="button" class="quick" (click)="toggleInfo()">
+      {{ mostrarInfo ? 'Ocultar info' : 'Ver info' }}
+    </button>
+  </div>
+
+  <div class="product-body">
+    <div class="product-universe">{{ product.universe }}</div>
+    <h3 class="product-title">{{ product.name }}</h3>
+
+    <div class="rating">
+      <span class="stars">{{ estrellas }}</span>
+      <span>{{ product.rating }} · {{ product.reviews }}</span>
+    </div>
+
+    @if (mostrarInfo) {
+      <ul class="info">
+        <li><strong>Escala:</strong> {{ product.scale }}</li>
+        <li><strong>Marca:</strong> {{ product.brand }}</li>
+        <li><strong>Stock:</strong> {{ product.stock }} unidades</li>
+        <li>{{ product.description }}</li>
+      </ul>
+    }
+
+    <div class="product-bottom">
+      <div>
+        <span class="price">{{ product.price | currency:'USD':'symbol':'1.0-0' }}</span>
+        @if (product.oldPrice) {
+          <span class="old">{{ product.oldPrice | currency:'USD':'symbol':'1.0-0' }}</span>
+        }
+      </div>
+      <button type="button" class="add" (click)="agregar()" aria-label="Agregar al carrito">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </div>
+  </div>
+</article>
