@@ -1,0 +1,68 @@
+
+<section class="products-hero">
+
+  @for (slide of slides; track $index) {
+    <div
+      class="products-hero-slide"
+      [class.active]="currentIndex === $index"
+      [style.background-image]="'url(' + slide.image + ')'">
+
+      <div class="products-hero-inner">
+        <div class="products-hero-copy">
+
+          <span class="products-hero-label">
+            {{ slide.label }}
+          </span>
+
+          <h1>
+            {{ slide.title }}
+            <span>{{ slide.subtitle }}</span>
+          </h1>
+
+          <p>{{ slide.description }}</p>
+
+          <a href="#catalogo" class="btn btn-primary">
+            EXPLORAR FIGURAS
+          </a>
+
+        </div>
+      </div>
+    </div>
+  }
+
+  <div class="products-hero-controls">
+
+    <button
+      type="button"
+      (click)="previousSlide()"
+      aria-label="Imagen anterior">
+      &#10094;
+    </button>
+
+    <span class="products-hero-counter">
+      {{ (currentIndex + 1).toString().padStart(2, '0') }}
+      / 03
+    </span>
+
+    <button
+      type="button"
+      (click)="nextSlide()"
+      aria-label="Siguiente imagen">
+      &#10095;
+    </button>
+
+    <div class="products-hero-dots">
+      @for (slide of slides; track $index) {
+        <button
+          type="button"
+          [class.active]="currentIndex === $index"
+          [attr.aria-label]="'Ir a imagen ' + ($index + 1)"
+          [attr.aria-current]="currentIndex === $index ? 'true' : null"
+          (click)="goToSlide($index)">
+        </button>
+      }
+    </div>
+
+  </div>
+
+</section>
