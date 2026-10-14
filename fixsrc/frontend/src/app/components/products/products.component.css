@@ -47,6 +47,70 @@
   gap: 24px;
 }
 
+.catalogo-buscador {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.catalogo-buscador input {
+  flex: 1;
+  min-width: 0;
+  padding: 15px 18px;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid #30384a;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.catalogo-buscador input:focus {
+  border-color: var(--cyan);
+}
+
+.catalogo-buscador button {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  background: var(--cyan);
+  color: #070914;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.catalogo-buscador button:hover {
+  opacity: 0.85;
+}
+
+.catalogo-vacio {
+  padding: 70px 20px;
+  text-align: center;
+  background: var(--panel);
+  border-radius: 12px;
+}
+
+.catalogo-vacio h3 {
+  color: var(--text);
+  font-size: 1.5rem;
+}
+
+.catalogo-vacio p {
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+
+@media (max-width: 600px) {
+  .catalogo-buscador {
+    flex-direction: column;
+  }
+
+  .catalogo-buscador button {
+    width: 100%;
+  }
+}
+
 @media (max-width: 1050px) {
   .catalogo-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));

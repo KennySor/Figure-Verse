@@ -17,6 +17,23 @@
     </span>
   </div>
 
+<!-- BUSCADOR DE PRODUCTOS -->
+  <div class="catalogo-buscador">
+    <input
+      type="text"
+      placeholder="Buscar por nombre o universo..."
+      [(ngModel)]="textoBusqueda"
+      (input)="buscarProductos()"
+    />
+
+    <button type="button" (click)="buscarProductos()">
+      Buscar
+    </button>
+  </div>
+
+
+<!-- PRODUCTOS -->
+@if (productos.length > 0) {
   <div class="catalogo-grid">
     @for (producto of productos; track producto.id) {
       <app-product-card
@@ -25,5 +42,11 @@
       </app-product-card>
     }
   </div>
+} @else {
+    <div class="catalogo-vacio">
+      <h3>No encontramos figuras...</h3>
+      <p>Intenta buscar otro personaje o universo.</p>
+    </div>
+  }
 
 </section>
