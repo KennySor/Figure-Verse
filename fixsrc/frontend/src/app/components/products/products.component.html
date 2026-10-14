@@ -1,0 +1,29 @@
+
+<!-- HERO SLIDER -->
+<app-hero-slider></app-hero-slider>
+
+<!-- CATÁLOGO DE PRODUCTOS -->
+<section class="catalogo" id="catalogo">
+
+  <div class="catalogo-encabezado">
+    <div>
+      <span class="catalogo-etiqueta">FIGURE-VERSE COLLECTION</span>
+      <h2>EXPLORA NUESTRO CATÁLOGO</h2>
+      <p>Descubre figuras de tus personajes favoritos.</p>
+    </div>
+
+    <span class="catalogo-contador">
+      {{ productos.length }} productos encontrados
+    </span>
+  </div>
+
+  <div class="catalogo-grid">
+    @for (producto of productos; track producto.id) {
+      <app-product-card
+        [product]="producto"
+        (agregarAlCarrito)="agregarAlCarrito($event)">
+      </app-product-card>
+    }
+  </div>
+
+</section>
