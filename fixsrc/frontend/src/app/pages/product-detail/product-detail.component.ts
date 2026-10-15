@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 import { CurrencyPipe } from '@angular/common';
 import { Product } from '../../models/product.model';
 
@@ -30,9 +31,11 @@ const DEMO_PRODUCT: Product = {
 })
 export class ProductDetailComponent {
   @Input() product: Product | undefined = DEMO_PRODUCT;
+   private readonly auth = inject(AuthService);
 
   qty = 1;
   added = false;
+  needLogin = false;
 
   private readonly categories: Record<string, string> = {
     anime: 'Anime',
@@ -82,8 +85,13 @@ export class ProductDetailComponent {
     this.qty = Math.min(Math.max(1, this.qty + delta), max);
   }
 
-  addToCart(): void {
-    // Por ahora solo muestra el aviso. Cuando el equipo tenga carrito, se conecta aquí.
+    addToCart(): void {
+    // Sin sesión no se puede comprar: se avisa y se invita a iniciar sesión.
+    if (!this.auth.isLoggedIn()) {
+      this.needLogin = true;
+      return;
+    }
+    this.needLogin = false;
     this.added = true;
     setTimeout(() => (this.added = false), 2000);
   }

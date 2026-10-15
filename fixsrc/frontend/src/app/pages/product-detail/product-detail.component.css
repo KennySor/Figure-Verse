@@ -50,6 +50,8 @@
 .pd-qty span { min-width: 34px; text-align: center; font-weight: 700; }
 .pd-add { flex: 1; min-width: 200px; }
 .pd button:disabled { opacity: .45; cursor: not-allowed; }
+.pd-login-alert { margin: 0 0 14px; padding: 12px 14px; border-radius: 12px; font-size: .88rem; color: #ffe6b0; background: rgba(255, 200, 87, .1); border: 1px solid rgba(255, 200, 87, .35); }
+.pd-login-alert a { color: var(--cyan); font-weight: 700; margin-left: 6px; }
 .pd-back { width: 100%; }
 
 .pd-empty { text-align: center; padding: 80px 0; display: grid; gap: 16px; justify-items: center; }
