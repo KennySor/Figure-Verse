@@ -31,8 +31,98 @@
     </button>
   </div>
 
+<!-- FILTROS -->
+  <div class="catalogo-filtros">
 
-<!-- PRODUCTOS -->
+<!-- CATEGORÍA -->
+    <div class="filtro-grupo">
+      <label for="filtro-categoria">Categoría</label>
+
+      <select
+        id="filtro-categoria"
+        [(ngModel)]="categoriaSeleccionada"
+        (ngModelChange)="cambiarCategoria()"
+      >
+        <option value="all">Todas las categorías</option>
+        <option value="anime">Anime</option>
+        <option value="superheroes">Superhéroes</option>
+        <option value="sci-fi">Ciencia ficción</option>
+        <option value="gaming">Acción y terror</option>
+      </select>
+    </div>
+
+    <!-- UNIVERSO -->
+    <div class="filtro-grupo">
+      <label for="filtro-universo">Universo</label>
+
+      <select
+        id="filtro-universo"
+        [(ngModel)]="universoSeleccionado"
+        (ngModelChange)="aplicarFiltros()"
+      >
+        <option value="all">Todos los universos</option>
+
+        @for (universo of universos; track universo) {
+          <option [value]="universo">
+            {{ universo }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <!-- PRECIO MÍNIMO -->
+    <div class="filtro-grupo">
+      <label for="precio-minimo">Precio mínimo</label>
+
+      <input
+        id="precio-minimo"
+        type="number"
+        min="0"
+        [(ngModel)]="precioMinimo"
+        (ngModelChange)="aplicarFiltros()"
+      />
+    </div>
+
+    <!-- PRECIO MÁXIMO -->
+    <div class="filtro-grupo">
+      <label for="precio-maximo">Precio máximo</label>
+
+      <input
+        id="precio-maximo"
+        type="number"
+        min="0"
+        [(ngModel)]="precioMaximo"
+        (ngModelChange)="aplicarFiltros()"
+      />
+    </div>
+
+    <!-- ORDENAMIENTO -->
+    <div class="filtro-grupo">
+      <label for="orden-productos">Ordenar por</label>
+
+      <select
+        id="orden-productos"
+        [(ngModel)]="ordenSeleccionado"
+        (ngModelChange)="aplicarFiltros()"
+      >
+        <option value="default">Predeterminado</option>
+        <option value="asc">Precio: menor a mayor</option>
+        <option value="desc">Precio: mayor a menor</option>
+      </select>
+    </div>
+
+    <!-- LIMPIAR -->
+    <button
+      type="button"
+      class="limpiar-filtros"
+      (click)="limpiarFiltros()"
+    >
+      Limpiar filtros
+    </button>
+
+  </div>
+
+<!-- RESULTADO -->
 @if (productos.length > 0) {
   <div class="catalogo-grid">
     @for (producto of productos; track producto.id) {
@@ -46,6 +136,12 @@
     <div class="catalogo-vacio">
       <h3>No encontramos figuras...</h3>
       <p>Intenta buscar otro personaje o universo.</p>
+    <button
+        type="button"
+        (click)="limpiarFiltros()"
+      >
+        Ver todos los productos
+      </button>
     </div>
   }
 

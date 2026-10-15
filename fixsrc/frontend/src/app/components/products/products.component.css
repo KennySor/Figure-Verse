@@ -101,6 +101,89 @@
 }
 
 
+/* FILTROS DEL CATÁLOGO */
+
+.catalogo-filtros {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 35px;
+  padding: 24px;
+  background: var(--panel);
+  border: 1px solid #252b40;
+  border-radius: 12px;
+}
+
+.filtro-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.filtro-grupo label {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.filtro-grupo select,
+.filtro-grupo input {
+  width: 100%;
+  padding: 12px;
+  background: var(--bg2);
+  color: var(--text);
+  border: 1px solid #343b52;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.filtro-grupo select:focus,
+.filtro-grupo input:focus {
+  border-color: var(--cyan);
+}
+
+.limpiar-filtros {
+  align-self: end;
+  padding: 13px 18px;
+  background: transparent;
+  color: var(--cyan);
+  border: 1px solid var(--cyan);
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.limpiar-filtros:hover {
+  background: rgba(57, 231, 255, 0.1);
+}
+
+.catalogo-vacio button {
+  margin-top: 20px;
+  padding: 12px 22px;
+  background: var(--cyan);
+  color: var(--bg);
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .catalogo-filtros {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .catalogo-filtros {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+}
+
+
 @media (max-width: 600px) {
   .catalogo-buscador {
     flex-direction: column;
