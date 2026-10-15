@@ -6,7 +6,7 @@
         <h1 class="lg-title">Hola, {{ user.nombre }}</h1>
         <p class="lg-text">Ya puedes agregar figuras a tu carrito con la cuenta {{ user.email }}.</p>
         <div class="lg-links">
-          <a class="btn btn-primary" href="/productos">Ver figuras</a>
+          <a class="btn btn-primary" routerLink="/productos">Ver figuras</a>
           <button type="button" class="btn btn-secondary" (click)="logout()">Cerrar sesión</button>
         </div>
       } @else {

@@ -16,9 +16,7 @@
 
     <img [src]="product.image" [alt]="product.name" />
 
-    <button type="button" class="quick" (click)="toggleInfo()">
-      {{ mostrarInfo ? 'Ocultar info' : 'Ver info' }}
-    </button>
+    <a class="quick" [routerLink]="['/producto', product.id]">Ver info</a>
   </div>
 
   <div class="product-body">

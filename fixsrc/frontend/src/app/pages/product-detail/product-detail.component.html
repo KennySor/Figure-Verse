@@ -2,8 +2,8 @@
   <div class="pd">
     <div class="container">
       <div class="pd-crumbs">
-        <a href="/">Inicio</a><span>/</span>
-        <a href="/productos">Figuras</a><span>/</span>
+        <a routerLink="/">Inicio</a><span>/</span>
+        <a routerLink="/productos">Figuras</a><span>/</span>
         <strong>{{ product.name }}</strong>
       </div>
 
@@ -56,12 +56,22 @@
                     @if (needLogin) {
             <p class="pd-login-alert" role="alert">
               Inicia sesión para agregar productos al carrito.
-              <a href="/login">Iniciar sesión</a>
+              <a routerLink="/login" [queryParams]="{ volver: '/producto/' + product.id }">Iniciar sesión</a>
             </p>
           }
-          <a class="btn btn-secondary pd-back" href="/productos">← Volver a productos</a>
+          <a class="btn btn-secondary pd-back" routerLink="/productos">← Volver a productos</a>
         </div>
       </div>
+      @if (related.length > 0) {
+        <section class="pd-related">
+          <h2 class="pd-related-title">Productos relacionados</h2>
+          <div class="pd-related-grid">
+            @for (item of related; track item.id) {
+              <app-product-card [product]="item" (agregarAlCarrito)="comprarRelacionado()" />
+            }
+          </div>
+        </section>
+      }
     </div>
   </div>
 } @else {
@@ -69,7 +79,7 @@
     <div class="container pd-empty">
       <h1>Producto no encontrado</h1>
       <p>La figura que buscas no existe o ya no está disponible.</p>
-      <a class="btn btn-primary" href="/productos">Ver todas las figuras</a>
+      <a class="btn btn-primary" routerLink="/productos">Ver todas las figuras</a>
     </div>
   </div>
 }

@@ -1,37 +1,26 @@
-import { Component, Input, inject } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Product } from '../../models/product.model';
-
-// TEMPORAL: producto de prueba. Lo borrare cuando B suba el servicio con los 20 productos.
-const DEMO_PRODUCT: Product = {
-  id: 1,
-  name: 'Goku Edición Coleccionista',
-  universe: 'Dragon Ball',
-  category: 'anime',
-  price: 189,
-  oldPrice: 230,
-  scale: '1/6',
-  brand: 'Bandai',
-  stock: 7,
-  rating: 4.8,
-  reviews: 128,
-  badge: 'sale',
-  image: 'assets/img/goku.png',
-  description:
-    'Figura de colección con acabado premium y pose dinámica. Incluye base de exhibición y caja coleccionable numerada.'
-};
+import { AuthService } from '../../services/auth.service';
+import { ProductService } from '../../services/product.service';
+import { ProductCard } from '../../components/product-card/product-card';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, RouterLink, ProductCard],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
 })
 export class ProductDetailComponent {
-  @Input() product: Product | undefined = DEMO_PRODUCT;
-   private readonly auth = inject(AuthService);
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly productService = inject(ProductService);
+
+  product: Product | undefined;
+  related: Product[] = [];
 
   qty = 1;
   added = false;
@@ -49,6 +38,24 @@ export class ProductDetailComponent {
     new: 'Nuevo',
     preorder: 'Preventa'
   };
+
+  constructor() {
+    // Se suscribe al :id para que funcione también al pasar de un producto a otro (relacionados).
+    this.route.paramMap.subscribe((params) => {
+      const product = this.productService.getById(Number(params.get('id')));
+      this.product = product;
+      this.related = product
+        ? this.productService
+            .getAll()
+            .filter((p) => p.category === product.category && p.id !== product.id)
+            .slice(0, 4)
+        : [];
+      this.qty = 1;
+      this.added = false;
+      this.needLogin = false;
+      window.scrollTo(0, 0);
+    });
+  }
 
   get categoryLabel(): string {
     return this.product ? this.categories[this.product.category] : '';
@@ -85,7 +92,7 @@ export class ProductDetailComponent {
     this.qty = Math.min(Math.max(1, this.qty + delta), max);
   }
 
-    addToCart(): void {
+  addToCart(): void {
     // Sin sesión no se puede comprar: se avisa y se invita a iniciar sesión.
     if (!this.auth.isLoggedIn()) {
       this.needLogin = true;
@@ -94,5 +101,12 @@ export class ProductDetailComponent {
     this.needLogin = false;
     this.added = true;
     setTimeout(() => (this.added = false), 2000);
+  }
+
+  /** Botón "+" de una tarjeta de productos relacionados. */
+  comprarRelacionado(): void {
+    if (!this.auth.isLoggedIn()) {
+      this.router.navigate(['/login'], { queryParams: { volver: this.router.url } });
+    }
   }
 }

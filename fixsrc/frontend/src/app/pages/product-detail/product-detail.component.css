@@ -61,3 +61,6 @@
   .pd-grid { grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: start; }
   .pd-back { width: auto; }
 }
+.pd-related { margin-top: 70px; }
+.pd-related-title { font-family: 'Barlow Condensed', Inter, sans-serif; font-size: 2rem; text-transform: uppercase; margin-bottom: 22px; }
+.pd-related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }

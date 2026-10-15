@@ -2,6 +2,9 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+
 import { HeroSliderComponent } from '../../components/hero-slider/hero-slider.component';
 import { ProductCard } from '../../components/product-card/product-card';
 import { ProductService } from '../../services/product.service';
@@ -17,6 +20,9 @@ import { Product } from '../../models/product.model';
 export class ProductsComponent {
 
   private productService = inject(ProductService);
+
+  private auth = inject(AuthService);
+  private router = inject(Router);
 
   todosLosProductos: Product[] = this.productService.getAll();
   productos: Product[] = [...this.todosLosProductos];
@@ -98,7 +104,12 @@ export class ProductsComponent {
   }
 
   agregarAlCarrito(producto: Product): void {
-    console.log('Producto seleccionado:', producto);
+  // Sin sesión no se puede comprar: se manda al login y luego se vuelve al catálogo.
+  if (!this.auth.isLoggedIn()) {
+    this.router.navigate(['/login'], { queryParams: { volver: '/productos' } });
+    return;
+  }
+  console.log('Producto agregado:', producto);
   }
 }
 

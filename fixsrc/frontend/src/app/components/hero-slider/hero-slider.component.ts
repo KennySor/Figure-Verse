@@ -19,21 +19,21 @@ export class HeroSliderComponent implements OnInit, OnDestroy {
 
   slides: HeroSlide[] = [
     {
-      image: 'assets/img/accion..jpg',
+      image: 'assets/img/accion..png',
       label: 'COLECCIÓN DESTACADA',
       title: 'HÉROES',
       subtitle: 'LEGENDARIOS',
       description: 'Descubre figuras exclusivas para tu colección.'
     },
     {
-      image: 'src/assets/img/pain.jpg',
+      image: 'assets/img/pain.png',
       label: 'UNIVERSO ANIME',
       title: 'PODER',
       subtitle: 'SIN LÍMITES',
       description: 'Tus personajes favoritos en figuras increíbles.'
     },
     {
-      image: 'src/assets/img/roman.jpg',
+      image: 'assets/img/roman.png',
       label: 'EDICIONES ESPECIALES',
       title: 'PIEZAS',
       subtitle: 'EXCLUSIVAS',

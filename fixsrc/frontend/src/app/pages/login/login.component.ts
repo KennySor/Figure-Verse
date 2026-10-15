@@ -1,14 +1,18 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService, AuthUser } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
+  imports: [RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
   readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   /** Se emite al iniciar sesión o registrarse con éxito (luego se usará para redirigir). */
   @Output() loggedIn = new EventEmitter<AuthUser>();
@@ -42,6 +46,7 @@ export class LoginComponent {
           : await this.auth.register(this.nombre, this.email, this.password);
       this.password = '';
       this.loggedIn.emit(user);
+      this.router.navigateByUrl(this.destino());
     } catch (e) {
       this.error = e instanceof Error ? e.message : 'Ocurrió un error. Intenta de nuevo.';
     } finally {
@@ -51,6 +56,12 @@ export class LoginComponent {
 
   logout(): void {
     this.auth.logout();
+  }
+
+    /** Página a la que volver tras iniciar sesión (?volver=/producto/3); por defecto el inicio. */
+  private destino(): string {
+    const volver = this.route.snapshot.queryParamMap.get('volver');
+    return volver && volver.startsWith('/') && !volver.startsWith('//') ? volver : '/';
   }
 
   private validate(): string {
