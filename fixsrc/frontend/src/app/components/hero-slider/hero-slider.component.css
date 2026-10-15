@@ -1,0 +1,141 @@
+
+.products-hero {
+  position: relative;
+  height: 600px;
+  overflow: hidden;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.products-hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .8s ease, visibility .8s;
+}
+
+.products-hero-slide.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.products-hero-slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg,
+      rgba(5,7,16,.97),
+      rgba(5,7,16,.75) 40%,
+      rgba(5,7,16,.25) 100%),
+    linear-gradient(0deg, var(--bg), transparent 40%);
+}
+
+.products-hero-inner {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  width: min(1320px, 90%);
+  margin: auto;
+  display: flex;
+  align-items: center;
+}
+
+.products-hero-copy {
+  max-width: 650px;
+}
+
+.products-hero-label {
+  display: inline-block;
+  padding: 9px 14px;
+  border: 1px solid rgba(57,231,255,.3);
+  border-radius: 30px;
+  background: rgba(57,231,255,.08);
+  color: var(--cyan);
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.products-hero h1 {
+  font: 900 clamp(3.5rem, 7vw, 6.5rem)/.9
+    "Barlow Condensed", sans-serif;
+  margin: 24px 0;
+}
+
+.products-hero h1 span {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 1px #fff;
+}
+
+.products-hero p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.products-hero-controls {
+  position: absolute;
+  bottom: 28px;
+  left: 5%;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.products-hero-controls > button {
+  width: 38px;
+  height: 38px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: white;
+}
+
+.products-hero-controls > button:hover {
+  border-color: var(--cyan);
+}
+
+.products-hero-counter {
+  font-weight: 700;
+  color: var(--muted);
+  font-size: .75rem;
+}
+
+.products-hero-dots {
+  display: flex;
+  gap: 7px;
+  margin-left: 10px;
+}
+
+.products-hero-dots button {
+  width: 23px;
+  height: 4px;
+  border: none;
+  border-radius: 5px;
+  background: #333a4e;
+}
+
+.products-hero-dots button.active {
+  background: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan);
+}
+
+@media (max-width: 600px) {
+  .products-hero {
+    height: 520px;
+  }
+
+  .products-hero h1 {
+    font-size: 3.5rem;
+  }
+
+  .products-hero-copy {
+    max-width: 100%;
+  }
+}
