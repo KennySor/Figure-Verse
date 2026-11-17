@@ -21,7 +21,7 @@ public class ProductService {
         String texto = q == null ? "" : q.trim().toLowerCase();
         boolean todas = categoria == null || categoria.isBlank() || categoria.equals("all");
 
-        return productRepository.findAll().stream()
+        return productRepository.findByActivoTrue().stream()
                 .filter(p -> texto.isEmpty()
                         || p.getName().toLowerCase().contains(texto)
                         || p.getUniverse().toLowerCase().contains(texto))
@@ -31,6 +31,7 @@ public class ProductService {
     }
 
     public Optional<Product> buscarPorId(Long id) {
-        return productRepository.findById(id);
+        return productRepository.findById(id)
+                .filter(Product::isActivo);
     }
 }
