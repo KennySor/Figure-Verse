@@ -31,13 +31,22 @@ public class Product {
     @Column(nullable = false)
     private int stock;
 
+    @Column(nullable = false)
     private double rating;
+
+    @Column(nullable = false)
     private int reviews;
+
     private String badge;
+
+    @Column(length = 500)
     private String image;
 
     @Column(length = 1000)
     private String description;
+
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private boolean activo = true;
 
     public Long getId() { return id; }
     public String getName() { return name; }
@@ -66,4 +75,6 @@ public class Product {
     public void setImage(String image) { this.image = image; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+    public boolean isActivo() { return activo; }
+    public void setActivo(boolean activo) { this.activo = activo; }
 }
