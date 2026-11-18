@@ -1,0 +1,158 @@
+### Variables globales
+@baseUrl = http://localhost:8080
+@adminEmail = admin@figureverse.com
+@adminPassword = admin123
+
+### 1. Login Admin (Obtener Bearer Token)
+# @name loginAdmin
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{adminEmail}}",
+  "password": "{{adminPassword}}"
+}
+
+> {%
+    client.global.set("token", response.body.token);
+%}
+
+### Token capturado desde el login (o reemplazar manualmente)
+@token = {{loginAdmin.response.body.token}}
+
+---
+
+### 2. Obtener catálogos dinámicos (categorías, marcas, universos, escalas, badges)
+GET {{baseUrl}}/api/admin/products/catalogs
+Authorization: Bearer {{token}}
+Accept: application/json
+
+---
+
+### 3. Listar todos los productos (sin filtros)
+GET {{baseUrl}}/api/admin/products
+Authorization: Bearer {{token}}
+Accept: application/json
+
+---
+
+### 4. Listar productos filtrando por texto (q), categoría y estado
+GET {{baseUrl}}/api/admin/products?q=goku&categoria=anime&estado=activos
+Authorization: Bearer {{token}}
+Accept: application/json
+
+---
+
+### 5. Obtener detalle de un producto por ID (200 OK)
+GET {{baseUrl}}/api/admin/products/1
+Authorization: Bearer {{token}}
+Accept: application/json
+
+---
+
+### 6. Obtener producto inexistente (404 Not Found)
+GET {{baseUrl}}/api/admin/products/99999
+Authorization: Bearer {{token}}
+Accept: application/json
+
+---
+
+### 7. Crear un producto válido (201 Created)
+POST {{baseUrl}}/api/admin/products
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Gojo Satoru Edición Especial",
+  "universe": "Jujutsu Kaisen",
+  "category": "anime",
+  "price": 189.99,
+  "oldPrice": 220.00,
+  "scale": "1/7",
+  "brand": "Kotobukiya",
+  "stock": 10,
+  "rating": 4.9,
+  "reviews": 45,
+  "badge": "new",
+  "image": "",
+  "description": "Figura coleccionable de Satoru Gojo usando el Vacío Infinito."
+}
+
+---
+
+### 8. Crear un producto inválido - Prueba de validación 400 Bad Request (oldPrice <= price)
+POST {{baseUrl}}/api/admin/products
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Figura Inválida Precio",
+  "universe": "Dragon Ball",
+  "category": "anime",
+  "price": 150.00,
+  "oldPrice": 120.00,
+  "scale": "1/8",
+  "brand": "Bandai",
+  "stock": 5
+}
+
+---
+
+### 9. Crear un producto inválido - Categoría no permitida (400 Bad Request)
+POST {{baseUrl}}/api/admin/products
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Figura Categoría Inválida",
+  "universe": "Otro",
+  "category": "deportes",
+  "price": 100.00,
+  "stock": 3
+}
+
+---
+
+### 10. Actualizar un producto existente (200 OK)
+PUT {{baseUrl}}/api/admin/products/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Superman Unidad Edición Deluxe",
+  "universe": "DC Comics",
+  "category": "superheroes",
+  "price": 270.00,
+  "oldPrice": 350.00,
+  "scale": "1/6",
+  "brand": "S.H.Figuarts",
+  "stock": 12,
+  "rating": 4.9,
+  "reviews": 135,
+  "badge": "sale",
+  "image": "assets/img/image.png",
+  "description": "Superman con capa de tela flexible, base especial y manos intercambiables."
+}
+
+---
+
+### 11. Cambiar estado activo/inactivo de un producto (PATCH 200 OK)
+PATCH {{baseUrl}}/api/admin/products/1/estado
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "activo": false
+}
+
+---
+
+### 12. Reactivar producto (PATCH 200 OK)
+PATCH {{baseUrl}}/api/admin/products/1/estado
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "activo": true
+}
+
