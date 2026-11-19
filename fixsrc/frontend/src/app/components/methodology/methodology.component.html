@@ -1,0 +1,47 @@
+<section class="met">
+    <header class="met-cabecera">
+        <span class="met-etiqueta">Cómo trabajamos</span>
+        <h2 class="met-titulo">Metodología Scrum</h2>
+    </header>
+
+    <h3 class="met-sub">Fases del proyecto</h3>
+    <div class="fases">
+        @for (f of fases; track f.titulo; let i = $index) {
+        <article class="card">
+            <span class="numero">{{ i + 1 }}</span>
+            <h4 class="card-titulo">{{ f.titulo }}</h4>
+            <p class="card-texto">{{ f.texto }}</p>
+        </article>
+        }
+    </div>
+
+    <h3 class="met-sub">Reuniones del equipo</h3>
+    <div class="ceremonias">
+        @for (c of ceremonias; track c.nombre) {
+        <article class="card">
+            <span class="chip">{{ c.cuando }}</span>
+            <h4 class="card-titulo">{{ c.nombre }}</h4>
+            <p class="card-texto">{{ c.texto }}</p>
+        </article>
+        }
+    </div>
+
+    <h3 class="met-sub">Cómo subimos nuestro trabajo a GitHub</h3>
+    <div class="flujo">
+        @for (p of pasosGit; track p.titulo; let i = $index; let ultimo = $last) {
+        <div class="paso">
+            <div class="paso-cabecera">
+                <span class="numero">{{ i + 1 }}</span>
+                @if (!ultimo) {
+                <span class="linea"></span>
+                }
+            </div>
+            <div class="paso-card">
+                <h4 class="card-titulo card-titulo-paso">{{ p.titulo }}</h4>
+                <p class="card-texto">{{ p.texto }}</p>
+                <code class="comando">{{ p.comando }}</code>
+            </div>
+        </div>
+        }
+    </div>
+</section>

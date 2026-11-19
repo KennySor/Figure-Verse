@@ -1,0 +1,196 @@
+:host {
+    --nos-fondo-card: #0e1426;
+    --nos-borde: rgba(255, 255, 255, 0.08);
+    --nos-texto: #ffffff;
+    --nos-texto-suave: #a9b4cf;
+    --nos-acento: #38e8ff;
+    --nos-acento-2: #8ff3ff;
+    --nos-fondo-avatar: #141c33;
+    --linea: rgba(56, 232, 255, 0.45);
+    display: block;
+}
+
+.met {
+    max-width: 1100px;
+    margin: 48px auto;
+    padding: 0 16px;
+}
+
+.met-cabecera {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.met-etiqueta {
+    color: var(--nos-acento);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.met-titulo {
+    margin: 8px 0 0;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--nos-texto);
+}
+
+.met-sub {
+    margin: 36px 0 16px;
+    color: var(--nos-acento);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.fases,
+.ceremonias {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.card {
+    background: var(--nos-fondo-card);
+    border: 1px solid var(--nos-borde);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.numero {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
+    margin-bottom: 12px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--nos-acento-2), var(--nos-acento));
+    color: #06101f;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.chip {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--nos-fondo-avatar);
+    border: 1px solid var(--nos-borde);
+    color: var(--nos-acento);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.card-titulo {
+    margin: 0 0 8px;
+    color: var(--nos-texto);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.card-titulo-paso {
+    font-size: 20px;
+}
+
+.card-texto {
+    margin: 0;
+    color: var(--nos-texto-suave);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Flujo de GitHub */
+.flujo {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+}
+
+.paso {
+    display: flex;
+    flex-direction: column;
+}
+
+.paso-cabecera {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.paso-cabecera .numero {
+    margin-bottom: 0;
+}
+
+.linea {
+    flex: 1;
+    height: 2px;
+    background: var(--linea);
+}
+
+.paso-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--nos-fondo-card);
+    border: 1px solid var(--nos-borde);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.comando {
+    display: block;
+    margin-top: auto;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--nos-fondo-avatar);
+    color: var(--nos-acento-2);
+    font-family: Consolas, monospace;
+    font-size: 12px;
+    word-break: break-word;
+}
+
+.paso-card .card-texto {
+    margin-bottom: 14px;
+}
+
+@media (max-width: 960px) {
+
+    .fases,
+    .ceremonias {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .flujo {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .linea {
+        display: none;
+    }
+}
+
+@media (max-width: 560px) {
+
+    .fases,
+    .ceremonias,
+    .flujo {
+        grid-template-columns: 1fr;
+    }
+
+    .met-titulo {
+        font-size: 30px;
+    }
+}

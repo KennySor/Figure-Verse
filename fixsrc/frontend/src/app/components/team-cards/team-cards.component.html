@@ -1,0 +1,21 @@
+<section class="team">
+    <p class="team__eyebrow">Figure-Verse</p>
+    <h2 class="team__title">Perfiles del equipo</h2>
+
+    <div class="team__grid">
+        @for (m of team; track m.id) {
+        <article class="card">
+            @if (m.foto) {
+            <img class="avatar avatar--img" [src]="m.foto" [alt]="m.nombre" />
+            } @else {
+            <div class="avatar">{{ m.iniciales }}</div>
+            }
+
+            <h3 class="card__name">{{ m.nombre }}</h3>
+            <p class="card__role">{{ m.rol }}</p>
+
+            <a class="card__btn" [routerLink]="['/nosotros/cv', m.id]">Ver perfil / CV</a>
+        </article>
+        }
+    </div>
+</section>
