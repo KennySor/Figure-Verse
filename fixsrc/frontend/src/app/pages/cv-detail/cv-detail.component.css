@@ -1,0 +1,128 @@
+:host {
+    --nos-fondo-card: #0e1426;
+    --nos-borde: rgba(255, 255, 255, 0.08);
+    --nos-texto: #ffffff;
+    --nos-texto-suave: #a9b4cf;
+    --nos-acento: #38e8ff;
+    --nos-acento-2: #8ff3ff;
+    --nos-fondo-avatar: #141c33;
+    display: block;
+}
+
+.cv-fondo {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 16px;
+}
+
+.cv-card {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    background: var(--nos-fondo-card);
+    border: 1px solid var(--nos-borde);
+    border-radius: 20px;
+    padding: 40px 28px 32px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.cv-cerrar {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--nos-borde);
+    background: transparent;
+    color: var(--nos-texto-suave);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.cv-cerrar:hover {
+    color: var(--nos-acento);
+    border-color: var(--nos-acento);
+}
+
+.cv-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--nos-acento);
+    margin: 0 auto 18px;
+    display: block;
+    background: var(--nos-fondo-avatar);
+}
+
+.cv-iniciales {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 44px;
+    font-weight: 800;
+    color: var(--nos-acento);
+}
+
+.cv-nombre {
+    margin: 0 0 6px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--nos-texto);
+    line-height: 1.1;
+}
+
+.cv-rol {
+    margin: 0 0 26px;
+    color: var(--nos-acento);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.cv-botones {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cv-btn {
+    display: block;
+    padding: 13px 18px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid var(--nos-borde);
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.cv-btn:hover {
+    transform: translateY(-2px);
+}
+
+.cv-btn-principal {
+    background: linear-gradient(135deg, var(--nos-acento-2), var(--nos-acento));
+    color: #06101f;
+    border: none;
+}
+
+.cv-btn-secundario {
+    background: var(--nos-fondo-avatar);
+    color: var(--nos-texto);
+}
+
+.cv-btn-secundario:hover {
+    border-color: var(--nos-acento);
+}

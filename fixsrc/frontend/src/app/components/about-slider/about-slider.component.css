@@ -1,0 +1,149 @@
+:host {
+    --nos-fondo-card: #0e1426;
+    --nos-borde: rgba(255, 255, 255, 0.08);
+    --nos-texto: #ffffff;
+    --nos-texto-suave: #a9b4cf;
+    --nos-acento: #38e8ff;
+    --nos-acento-2: #8ff3ff;
+    --nos-fondo-avatar: #141c33;
+    display: block;
+}
+
+.slider {
+    position: relative;
+    max-width: 1100px;
+    margin: 32px auto;
+    padding: 56px 72px 64px;
+    background: radial-gradient(circle at 20% 0%, rgba(56, 232, 255, 0.12), transparent 55%), var(--nos-fondo-card);
+    border: 1px solid var(--nos-borde);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.pista {
+    display: grid;
+    min-height: 190px;
+}
+
+.slide {
+    grid-area: 1 / 1;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.slide.activa {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.etiqueta {
+    display: inline-block;
+    color: var(--nos-acento);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.titulo {
+    margin: 0 0 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.05;
+    text-transform: uppercase;
+    color: var(--nos-texto);
+}
+
+.texto {
+    max-width: 680px;
+    margin: 0 auto;
+    color: var(--nos-texto-suave);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.flecha {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--nos-borde);
+    background: var(--nos-fondo-avatar);
+    color: var(--nos-texto);
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.flecha:hover {
+    color: var(--nos-acento);
+    border-color: var(--nos-acento);
+}
+
+.flecha.izq {
+    left: 16px;
+}
+
+.flecha.der {
+    right: 16px;
+}
+
+.indicadores {
+    position: absolute;
+    bottom: 22px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.punto {
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    transition: width 0.25s ease, background 0.25s ease;
+}
+
+.punto.activo {
+    width: 28px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, var(--nos-acento-2), var(--nos-acento));
+}
+
+@media (max-width: 640px) {
+    .slider {
+        padding: 40px 48px 60px;
+    }
+
+    .titulo {
+        font-size: 30px;
+    }
+
+    .flecha {
+        width: 36px;
+        height: 36px;
+        font-size: 22px;
+    }
+
+    .flecha.izq {
+        left: 6px;
+    }
+
+    .flecha.der {
+        right: 6px;
+    }
+}

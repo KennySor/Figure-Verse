@@ -1,0 +1,33 @@
+<section class="cv-fondo">
+    <article class="cv-card">
+        <button class="cv-cerrar" type="button" (click)="volver()" aria-label="Cerrar">✕</button>
+
+        @if (miembro) {
+        @if (miembro.foto) {
+        <img class="cv-avatar" [src]="miembro.foto" [alt]="miembro.nombre" />
+        } @else {
+        <div class="cv-avatar cv-iniciales">{{ miembro.iniciales }}</div>
+        }
+
+        <h1 class="cv-nombre">{{ miembro.nombre }}</h1>
+        <p class="cv-rol">{{ miembro.rol }}</p>
+
+        <div class="cv-botones">
+            <a class="cv-btn cv-btn-principal" [href]="pdfUrl" target="_blank" rel="noopener">
+                Abrir en pestaña nueva
+            </a>
+            <a class="cv-btn cv-btn-secundario" [href]="pdfUrl" download>
+                Descargar PDF
+            </a>
+        </div>
+        } @else {
+        <h1 class="cv-nombre">Integrante no encontrado</h1>
+        <p class="cv-rol">El perfil que buscas no existe.</p>
+        <div class="cv-botones">
+            <button class="cv-btn cv-btn-secundario" type="button" (click)="volver()">
+                ← Volver a Nosotros
+            </button>
+        </div>
+        }
+    </article>
+</section>

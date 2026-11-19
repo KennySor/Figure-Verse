@@ -1,0 +1,33 @@
+<section class="org">
+    <header class="org-cabecera">
+        <span class="org-etiqueta">Estructura</span>
+        <h2 class="org-titulo">Organigrama del proyecto</h2>
+    </header>
+
+    @if (lider) {
+    <div class="nivel-lider">
+        <article class="nodo nodo-lider">
+            <svg class="icono" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="7" r="4" />
+                <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8z" />
+            </svg>
+            <h3 class="nodo-nombre">{{ lider.nombre }}</h3>
+            <p class="nodo-rol">{{ lider.rol }}</p>
+        </article>
+    </div>
+    }
+
+    <div class="nivel-equipo">
+        @for (m of equipo; track m.id) {
+        <div class="rama">
+            <article class="nodo">
+                <svg class="icono" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M8.5 7 3.5 12l5 5M15.5 7l5 5-5 5M13.5 5l-3 14" />
+                </svg>
+                <h3 class="nodo-nombre">{{ m.nombre }}</h3>
+                <p class="nodo-rol">{{ m.rol }}</p>
+            </article>
+        </div>
+        }
+    </div>
+</section>

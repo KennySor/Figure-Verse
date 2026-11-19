@@ -1,0 +1,113 @@
+:host {
+    --nos-fondo-card: #0e1426;
+    --nos-borde: rgba(255, 255, 255, 0.08);
+    --nos-texto: #ffffff;
+    --nos-texto-suave: #8b93a7;
+    --nos-acento: #38e8ff;
+    --nos-acento-2: #8ff3ff;
+    --nos-fondo-avatar: #141c33;
+    display: block;
+}
+
+.team {
+    padding: 24px 0;
+}
+
+.team__eyebrow {
+    color: var(--nos-acento);
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin: 0 0 4px;
+}
+
+.team__title {
+    font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    color: var(--nos-texto);
+    font-size: 2.2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 0 0 20px;
+}
+
+.team__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+}
+
+.card {
+    background: var(--nos-fondo-card);
+    border: 1px solid var(--nos-borde);
+    border-radius: 16px;
+    padding: 28px 16px 22px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: var(--nos-acento);
+    box-shadow: 0 8px 24px rgba(56, 232, 255, .12);
+}
+
+.avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: var(--nos-fondo-avatar);
+    color: var(--nos-acento);
+    border: 2px solid var(--nos-acento);
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+}
+
+.avatar--img {
+    object-fit: cover;
+    object-position: top;
+}
+
+.card__name {
+    color: var(--nos-texto);
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 4px;
+}
+
+.card__role {
+    color: var(--nos-acento);
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin: 0 0 16px;
+}
+
+.card__btn {
+    color: var(--nos-texto);
+    border: 1px solid var(--nos-borde);
+    background: var(--nos-fondo-avatar);
+    border-radius: 10px;
+    padding: 9px 16px;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all .2s;
+}
+
+.card__btn:hover {
+    background: linear-gradient(90deg, var(--nos-acento), var(--nos-acento-2));
+    color: #07101f;
+    border-color: transparent;
+}
+
