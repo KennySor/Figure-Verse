@@ -180,10 +180,15 @@ public class AdminProductService {
         product.setOldPrice(oldPrice);
         product.setScale(scaleVal);
         product.setBrand(brandVal);
-             product.setRating(ratingVal);
+
+        // Guardar el stock recibido desde Angular
+        product.setStock(request.getStock());
+
+        product.setRating(ratingVal);
         product.setReviews(reviewsVal);
         product.setBadge(badgeVal);
         product.setImage(imageVal);
         product.setDescription(descriptionVal);
+
     }
 }

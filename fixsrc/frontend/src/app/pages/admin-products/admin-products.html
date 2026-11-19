@@ -1,0 +1,246 @@
+
+<section class="admin-container">
+  <div class="admin-header">
+    <div>
+      <span class="etiqueta">FIGURE-VERSE ADMIN</span>
+      <h1>Administración de productos</h1>
+      <p>Gestiona las figuras disponibles en la tienda.</p>
+    </div>
+
+    <button class="btn-principal" type="button" (click)="nuevoProducto()">
+      + Nuevo producto
+    </button>
+  </div>
+
+  @if (mensaje) {
+    <div class="alerta exito" role="status">{{ mensaje }}</div>
+  }
+
+  @if (error) {
+    <div class="alerta error" role="alert">{{ error }}</div>
+  }
+
+  <div class="filtros">
+    <div class="campo">
+      <label for="buscar">Buscar por nombre o ID</label>
+      <input
+        id="buscar"
+        type="text"
+        [(ngModel)]="busqueda"
+        (input)="buscar()"
+        placeholder="Ejemplo: Batman o 2"
+      />
+    </div>
+
+    <div class="campo">
+      <label for="categoria">Categoría</label>
+      <select
+        id="categoria"
+        [(ngModel)]="categoria"
+        (ngModelChange)="cambiarFiltros()"
+      >
+        <option value="all">Todas las categorías</option>
+        @for (item of catalogos.categorias; track item) {
+          <option [value]="item">{{ item }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="estado">Estado</label>
+      <select
+        id="estado"
+        [(ngModel)]="estado"
+        (ngModelChange)="cambiarFiltros()"
+      >
+        <option value="all">Todos</option>
+        <option value="activos">Activos</option>
+        <option value="inactivos">Inactivos</option>
+        
+      </select>
+    </div>
+
+    <button type="button" class="btn-secundario" (click)="limpiarFiltros()">
+      Limpiar
+    </button>
+  </div>
+
+  <div class="listado-header">
+    <h2>Listado de productos</h2>
+    <span>{{ productos.length }} resultados</span>
+  </div>
+
+  @if (cargando) {
+    <p class="estado-listado">Cargando productos...</p>
+  } @else if (productos.length === 0) {
+    <p class="estado-listado">No se encontraron productos.</p>
+  } @else {
+    <div class="tabla-contenedor">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (producto of productos; track producto.id) {
+            <tr>
+              <td>#{{ producto.id }}</td>
+              <td>
+                <strong>{{ producto.name }}</strong>
+                <small>{{ producto.universe }}</small>
+              </td>
+              <td>{{ producto.category }}</td>
+              <td>S/ {{ producto.price | number:'1.2-2' }}</td>
+              <td>{{ producto.stock }}</td>
+              <td>
+                <span
+                  class="estado"
+                  [class.activo]="producto.activo"
+                  [class.inactivo]="!producto.activo"
+                >
+                  {{ producto.activo ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+              <td class="acciones">
+                <button
+                  type="button"
+                  class="btn-editar"
+                  (click)="editarProducto(producto)"
+                >
+                  Editar
+                </button>
+                <button
+                  type="button"
+                  class="btn-estado"
+                  (click)="cambiarEstado(producto)"
+                >
+                  {{ producto.activo ? 'Desactivar' : 'Reactivar' }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @if (mostrarFormulario) {
+    <div class="formulario-panel">
+      <div class="formulario-header">
+        <h2>{{ editandoId === null ? 'Nuevo producto' : 'Editar producto #' + editandoId }}</h2>
+        <button type="button" class="btn-cerrar" (click)="cancelar()">Cerrar</button>
+      </div>
+
+      <form #productoForm="ngForm" (ngSubmit)="guardarProducto()">
+        <div class="formulario-grid">
+          <div class="campo">
+            <label for="nombre">Nombre *</label>
+            <input id="nombre" name="name" [(ngModel)]="formulario.name" required />
+          </div>
+
+          <div class="campo">
+            <label for="universo">Universo *</label>
+            <input id="universo" name="universe" [(ngModel)]="formulario.universe" required />
+          </div>
+
+          <div class="campo">
+            <label for="categoria-form">Categoría *</label>
+            <select id="categoria-form" name="category" [(ngModel)]="formulario.category" required>
+              @for (item of catalogos.categorias; track item) {
+                <option [value]="item">{{ item }}</option>
+              }
+              @if (!catalogos.categorias.includes(formulario.category)) {
+                <option [value]="formulario.category">{{ formulario.category }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="marca">Marca *</label>
+            <input id="marca" name="brand" [(ngModel)]="formulario.brand" required />
+          </div>
+
+          <div class="campo">
+            <label for="escala">Escala *</label>
+            <input id="escala" name="scale" [(ngModel)]="formulario.scale" required />
+          </div>
+
+          <div class="campo">
+            <label for="imagen">Ruta de imagen *</label>
+            <input id="imagen" name="image" [(ngModel)]="formulario.image" required />
+          </div>
+
+          <div class="campo">
+            <label for="precio">Precio *</label>
+            <input id="precio" type="number" min="0" step="0.01" name="price" [(ngModel)]="formulario.price" required />
+          </div>
+
+          <div class="campo">
+            <label for="precio-anterior">Precio anterior</label>
+            <input id="precio-anterior" type="number" min="0" step="0.01" name="oldPrice" [(ngModel)]="formulario.oldPrice" />
+          </div>
+
+          <div class="campo">
+            <label for="stock">Stock *</label>
+            <input id="stock" type="number" min="0" step="1" name="stock" [(ngModel)]="formulario.stock" required />
+          </div>
+
+          <div class="campo">
+            <label for="rating">Calificación</label>
+            <input id="rating" type="number" min="0" max="5" step="0.1" name="rating" [(ngModel)]="formulario.rating" />
+          </div>
+
+          <div class="campo">
+            <label for="reviews">Reseñas</label>
+            <input id="reviews" type="number" min="0" step="1" name="reviews" [(ngModel)]="formulario.reviews" />
+          </div>
+
+          <div class="campo">
+            <label for="badge">Etiqueta</label>
+            <select id="badge" name="badge" [(ngModel)]="formulario.badge">
+              <option [ngValue]="null">Sin etiqueta</option>
+              @for (item of catalogos.badges; track item) {
+                <option [value]="item">{{ item }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="campo ancho-completo">
+            <label for="descripcion">Descripción *</label>
+            <textarea
+              id="descripcion"
+              name="description"
+              rows="4"
+              [(ngModel)]="formulario.description"
+              required
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="formulario-acciones">
+          <button type="button" class="btn-secundario" (click)="cancelar()">
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn-principal"
+            [disabled]="productoForm.invalid || guardando"
+          >
+            {{
+            guardando
+                ? (editandoId === null ? 'Guardando...' : 'Actualizando...')
+                : (editandoId === null ? 'Guardar producto' : 'Actualizar producto')
+            }}
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</section>
