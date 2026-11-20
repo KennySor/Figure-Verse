@@ -1,9 +1,19 @@
-import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject, signal } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 
 export interface AuthUser {
   id: number;
   nombre: string;
   email: string;
+  rol: string;
+  token: string;
+}
+
+export interface AdminSession {
+  ok: boolean;
+  id: number;
+  nombre: string;
   rol: string;
 }
 
@@ -12,11 +22,45 @@ const STORAGE_KEY = 'figureverse_user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  /** Usuario con sesión iniciada (o null). Se mantiene al recargar la página. */
+
+  private readonly http = inject(HttpClient);
+
   readonly user = signal<AuthUser | null>(this.load());
 
   isLoggedIn(): boolean {
-    return this.user() !== null;
+    return this.user() !== null && !!this.token();
+  }
+
+  isAdmin(): boolean {
+    return this.isLoggedIn() && this.user()?.rol === 'ADMIN';
+  }
+
+  token(): string | null {
+    return this.user()?.token || null;
+  }
+
+  async verifySession(): Promise<boolean> {
+    if (!this.isAdmin()) {
+    return false;
+    }
+
+    try {
+      const session = await firstValueFrom(
+        this.http.get<AdminSession>(
+          'http://localhost:8080/api/admin/session'
+        )
+      );
+
+      const currentUser = this.user();
+
+    return (
+      session.ok === true &&
+      session.rol === 'ADMIN' &&
+      session.id === currentUser?.id
+    );
+    } catch {
+    return false;
+    }
   }
 
   async login(email: string, password: string): Promise<AuthUser> {
@@ -25,9 +69,18 @@ export class AuthService {
     return user;
   }
 
-  async register(nombre: string, email: string, password: string): Promise<AuthUser> {
-    const user = await this.post<AuthUser>('/register', { nombre, email, password });
-    this.save(user); // al registrarse queda con la sesión iniciada
+  async register(
+    nombre: string,
+    email: string,
+    password: string
+  ): Promise<AuthUser> {
+    const user = await this.post<AuthUser>('/register', {
+      nombre,
+      email,
+      password
+    });
+
+    this.save(user);
     return user;
   }
 
@@ -35,33 +88,49 @@ export class AuthService {
     try {
       localStorage.removeItem(STORAGE_KEY);
     } catch {
-      // sin acceso a localStorage: solo se limpia la memoria
+      // Si localStorage no está disponible, se limpia la memoria.
     }
+
     this.user.set(null);
   }
 
   private async post<T>(path: string, body: unknown): Promise<T> {
     let res: Response;
+
     try {
       res = await fetch(API_URL + path, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(body)
       });
     } catch {
-      throw new Error('No se pudo conectar con el servidor. ¿Está encendido el backend?');
+      throw new Error('No se pudo conectar con el servidor.');
     }
+
     const data = await res.json().catch(() => ({}));
+
     if (!res.ok) {
-      throw new Error(data.mensaje ?? 'Ocurrió un error. Intenta de nuevo.');
+      throw new Error(
+        data.mensaje ?? 'Ocurrió un error. Intenta de nuevo.'
+      );
     }
+
     return data as T;
   }
 
   private load(): AuthUser | null {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? (JSON.parse(raw) as AuthUser) : null;
+      if (!raw) return null;
+
+      const user = JSON.parse(raw) as AuthUser;
+
+      // Evita reutilizar sesiones antiguas que no tienen token.
+      return user && typeof user.token === 'string' && user.token
+        ? user
+        : null;
     } catch {
       return null;
     }
@@ -71,8 +140,9 @@ export class AuthService {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
     } catch {
-      // sin acceso a localStorage: la sesión dura hasta recargar
+      // La sesión permanece en memoria.
     }
+
     this.user.set(user);
   }
 }

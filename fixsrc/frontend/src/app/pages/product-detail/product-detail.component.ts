@@ -1,6 +1,13 @@
-import { Component, inject } from '@angular/core';
+
+import { Component, inject, OnDestroy } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink
+} from '@angular/router';
+import { Subscription, switchMap, of, catchError, map } from 'rxjs';
+
 import { Product } from '../../models/product.model';
 import { AuthService } from '../../services/auth.service';
 import { ProductService } from '../../services/product.service';
@@ -13,11 +20,14 @@ import { ProductCard } from '../../components/product-card/product-card';
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
 })
-export class ProductDetailComponent {
+export class ProductDetailComponent implements OnDestroy {
+
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly productService = inject(ProductService);
+
+  private readonly subscription: Subscription;
 
   product: Product | undefined;
   related: Product[] = [];
@@ -25,6 +35,9 @@ export class ProductDetailComponent {
   qty = 1;
   added = false;
   needLogin = false;
+
+  cargando = true;
+  errorCarga = '';
 
   private readonly categories: Record<string, string> = {
     anime: 'Anime',
@@ -40,34 +53,81 @@ export class ProductDetailComponent {
   };
 
   constructor() {
-    // Se suscribe al :id para que funcione también al pasar de un producto a otro (relacionados).
-    this.route.paramMap.subscribe((params) => {
-      const product = this.productService.getById(Number(params.get('id')));
+    this.subscription = this.route.paramMap.pipe(
+      switchMap(params => {
+        const id = Number(params.get('id'));
+
+        this.product = undefined;
+        this.related = [];
+        this.cargando = true;
+        this.errorCarga = '';
+        this.qty = 1;
+        this.added = false;
+        this.needLogin = false;
+
+        window.scrollTo(0, 0);
+
+        if (!Number.isInteger(id) || id <= 0) {
+          return of({
+            product: undefined as Product | undefined,
+            related: [] as Product[]
+          });
+        }
+
+        return this.productService.getById(id).pipe(
+          switchMap(product =>
+            this.productService.getAll().pipe(
+              map(products => ({
+                product: product.activo === false ? undefined : product,
+                related: products
+                  .filter(p =>
+                    p.activo !== false &&
+                    p.category === product.category &&
+                    p.id !== product.id
+                  )
+                  .slice(0, 4)
+              }))
+            )
+          ),
+          catchError(error => {
+            console.error('Error al cargar detalle:', error);
+            this.errorCarga = 'No se pudo cargar el producto.';
+            return of({
+              product: undefined as Product | undefined,
+              related: [] as Product[]
+            });
+          })
+        );
+      })
+    ).subscribe(({ product, related }) => {
       this.product = product;
-      this.related = product
-        ? this.productService
-            .getAll()
-            .filter((p) => p.category === product.category && p.id !== product.id)
-            .slice(0, 4)
-        : [];
-      this.qty = 1;
-      this.added = false;
-      this.needLogin = false;
-      window.scrollTo(0, 0);
+      this.related = product ? related : [];
+      this.cargando = false;
     });
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   get categoryLabel(): string {
-    return this.product ? this.categories[this.product.category] : '';
+    return this.product
+      ? this.categories[this.product.category] ?? ''
+      : '';
   }
 
   get badgeLabel(): string {
-    return this.product?.badge ? this.badges[this.product.badge] : '';
+    return this.product?.badge
+      ? this.badges[this.product.badge] ?? ''
+      : '';
   }
 
   get discount(): number {
     const p = this.product;
-    return p?.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
+
+    return p?.oldPrice
+      ? Math.round((1 - p.price / p.oldPrice) * 100)
+      : 0;
   }
 
   get stars(): string {
@@ -77,8 +137,10 @@ export class ProductDetailComponent {
 
   get stockText(): string {
     const s = this.product?.stock ?? 0;
+
     if (s === 0) return 'Agotado';
     if (s <= 10) return `¡Últimas ${s} unidades!`;
+
     return 'Disponible';
   }
 
@@ -89,24 +151,34 @@ export class ProductDetailComponent {
 
   changeQty(delta: number): void {
     const max = this.product?.stock ?? 1;
-    this.qty = Math.min(Math.max(1, this.qty + delta), max);
+
+    if (max <= 0) return;
+
+    this.qty = Math.min(
+      Math.max(1, this.qty + delta),
+      max
+    );
   }
 
   addToCart(): void {
-    // Sin sesión no se puede comprar: se avisa y se invita a iniciar sesión.
     if (!this.auth.isLoggedIn()) {
       this.needLogin = true;
       return;
     }
+
     this.needLogin = false;
     this.added = true;
-    setTimeout(() => (this.added = false), 2000);
+
+    setTimeout(() => {
+      this.added = false;
+    }, 2000);
   }
 
-  /** Botón "+" de una tarjeta de productos relacionados. */
   comprarRelacionado(): void {
     if (!this.auth.isLoggedIn()) {
-      this.router.navigate(['/login'], { queryParams: { volver: this.router.url } });
+      this.router.navigate(['/login'], {
+        queryParams: { volver: this.router.url }
+      });
     }
   }
 }
